@@ -15,6 +15,7 @@ class ScanConnectToDeviceActivity : AppCompatActivity() {
     lateinit var connectTo: EditText
     lateinit var testData: Button
     lateinit var testData2: Button
+    lateinit var testData3: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +24,7 @@ class ScanConnectToDeviceActivity : AppCompatActivity() {
         connectTo = findViewById(R.id.connectTo)
         testData = findViewById(R.id.testData)
         testData2 = findViewById(R.id.testData2)
+        testData3 = findViewById(R.id.testData3)
 
         val whereToGo = intent.getIntExtra("whereToGo", -1)
 
@@ -48,7 +50,9 @@ class ScanConnectToDeviceActivity : AppCompatActivity() {
             connectTo.setText(testData2.text)
 
         }
+        testData3.setOnClickListener{
+            connectTo.setText(testData3.text)
 
-
+        }
     }
 }

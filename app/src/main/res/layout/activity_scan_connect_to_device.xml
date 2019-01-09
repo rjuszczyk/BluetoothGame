@@ -31,4 +31,12 @@
         android:layout_height="wrap_content"
         android:text="Nokia 6.1"
         />
+
+
+    <Button
+        android:id="@+id/testData3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Live with Walkman"
+        />
 </LinearLayout>

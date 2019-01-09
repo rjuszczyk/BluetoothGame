@@ -26,6 +26,8 @@
         </activity>
         <activity android:name=".ScanConnectToDeviceActivity">
         </activity>
+        <service android:name=".BluetoothServerConnectionService" />
+        <service android:name=".BluetoothClientConnectionService" />
     </application>
 
 </manifest>
