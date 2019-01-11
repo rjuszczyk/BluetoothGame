@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BluetoothGame</string>
+    <string name="channel_descirption">Channel description</string>
 </resources>

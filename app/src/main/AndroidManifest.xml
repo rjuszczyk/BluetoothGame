@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -14,17 +15,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".StartupActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".BluetoothServerActivity"
+            android:launchMode="singleTask"
+            >
+        </activity>
+        <activity android:name=".BluetoothClientActivity"
+            android:launchMode="singleTask"
+            >
+        </activity>
+        <activity android:name=".ScanConnectToDeviceActivity">
+        </activity>
+        <activity android:name=".RetrieveNameFromQrCodesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".BluetoothServerActivity">
-        </activity>
-        <activity android:name=".BluetoothClientActivity">
-        </activity>
-        <activity android:name=".ScanConnectToDeviceActivity">
         </activity>
         <service android:name=".BluetoothServerConnectionService" />
         <service android:name=".BluetoothClientConnectionService" />

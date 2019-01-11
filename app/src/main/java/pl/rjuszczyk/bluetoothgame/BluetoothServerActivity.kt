@@ -1,12 +1,15 @@
 package pl.rjuszczyk.bluetoothgame
 
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.*
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 
 
@@ -19,6 +22,7 @@ class BluetoothServerActivity : AppCompatActivity() {
     val CONNECTED = 5
 
     lateinit var connectTo:String
+    lateinit var qrCodeTxt:String
     var activityId:Long = 0
 
     lateinit var sendMessage: Button
@@ -27,6 +31,15 @@ class BluetoothServerActivity : AppCompatActivity() {
     lateinit var status: TextView
 
     var state = IDLE
+
+    companion object {
+        fun getStartIntent(activity: Activity, qrCodeTxt :String, connectTo:String ) : Intent {
+            val intent = Intent(activity, BluetoothServerActivity::class.java)
+            intent.putExtra("connectTo", connectTo )
+            intent.putExtra("qrCodeTxt", qrCodeTxt )
+            return intent
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +54,7 @@ class BluetoothServerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_server)
 
         connectTo = intent.getStringExtra("connectTo")
+        qrCodeTxt = intent.getStringExtra("qrCodeTxt")
 
         status = findViewById(R.id.status)
 
@@ -48,7 +62,13 @@ class BluetoothServerActivity : AppCompatActivity() {
         deviceName = findViewById(R.id.deviceName)
         connect = findViewById(R.id.connect)
         deviceName.text = BluetoothAdapter.getDefaultAdapter().name
+        val qrcode = findViewById<ImageView>(R.id.qrcode)
 
+        qrcode.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+            override fun onLayoutChange(p0: View, p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int, p7: Int, p8: Int) {
+                qrcode.setImageBitmap(RetrieveNameFromQrCodesActivity.getQRCodeImage(qrCodeTxt, p0.width, p0.height))
+            }
+        })
 
         sendMessage.setOnClickListener {
             startService(BluetoothServerConnectionService.sendMessageIntent(this, "test message"))
@@ -59,7 +79,13 @@ class BluetoothServerActivity : AppCompatActivity() {
             startService(BluetoothServerConnectionService.waitForConnectionIntent(this))
         }
 
-        startService(BluetoothServerConnectionService.initConnectionFlowIntent(this, activityId, connectTo))
+        if(savedInstanceState == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(BluetoothServerConnectionService.initConnectionFlowIntent(this, activityId, connectTo))
+            } else {
+                startService(BluetoothServerConnectionService.initConnectionFlowIntent(this, activityId, connectTo))
+            }
+        }
     }
 
     val bluetoothStateReceiver = object : BroadcastReceiver() {

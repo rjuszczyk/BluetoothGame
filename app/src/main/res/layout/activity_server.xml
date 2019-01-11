@@ -33,4 +33,9 @@
         android:layout_height="wrap_content"
         android:text="Connect"
         android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/qrcode"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 </LinearLayout>
